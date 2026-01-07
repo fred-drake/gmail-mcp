@@ -13,16 +13,10 @@ clients. Built with FastMCP.
 
 ## Installation
 
-### Using uvx (recommended)
+No local installation required! Run directly from GitHub using `uvx`:
 
 ```bash
-uvx gmail-mcp
-```
-
-### Using pip
-
-```bash
-pip install gmail-mcp
+uvx --from git+https://github.com/fred-drake/gmail-mcp gmail-mcp
 ```
 
 ## Setup
@@ -30,18 +24,40 @@ pip install gmail-mcp
 ### 1. Create Google Cloud OAuth Credentials
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
+
+2. Create a new project or select an existing one:
+   - Click the project dropdown at the top of the page
+   - Click "New Project", give it a name, and create it
+   - Make sure your new project is selected
+
 3. Enable the Gmail API:
    - Navigate to "APIs & Services" > "Library"
-   - Search for "Gmail API" and enable it
-4. Create OAuth credentials:
+   - Search for "Gmail API" and click on it
+   - Click "Enable"
+
+4. Configure the OAuth consent screen (required before creating credentials):
+   - Go to "APIs & Services" > "OAuth consent screen"
+   - Select "External" as the user type and click "Create"
+   - Fill in the required fields:
+     - App name: Choose any name (e.g., "Gmail MCP")
+     - User support email: Select your email
+     - Developer contact email: Enter your email
+   - Click "Save and Continue"
+   - On the "Scopes" page, click "Save and Continue" (no changes needed)
+   - On the "Test users" page:
+     - Click "Add Users"
+     - **Enter the Gmail address you want to access** (this is critical!)
+     - Click "Add" then "Save and Continue"
+   - Click "Back to Dashboard"
+
+5. Create OAuth credentials:
    - Go to "APIs & Services" > "Credentials"
    - Click "Create Credentials" > "OAuth client ID"
    - Choose "Desktop app" as the application type
-   - Download the JSON file
-5. Configure OAuth consent screen:
-   - Go to "APIs & Services" > "OAuth consent screen"
-   - Add your email as a test user (required for testing)
+   - Give it a name (e.g., "Gmail MCP Desktop")
+   - Click "Create"
+   - Click "Download JSON" to save the credentials file
+   - Store this file securely - you'll need the path for configuration
 
 ### 2. Set Environment Variables
 
@@ -62,7 +78,7 @@ export GMAIL_MCP_TOKEN_PATH="/custom/path/token.json"
 Run the interactive setup to authenticate:
 
 ```bash
-uvx gmail-mcp --setup
+uvx --from git+https://github.com/fred-drake/gmail-mcp gmail-mcp --setup
 ```
 
 This will open a browser window for Google OAuth authentication. After authorizing, the token
@@ -79,7 +95,7 @@ Add to your Claude Code MCP settings:
   "mcpServers": {
     "gmail": {
       "command": "uvx",
-      "args": ["gmail-mcp"],
+      "args": ["--from", "git+https://github.com/fred-drake/gmail-mcp", "gmail-mcp"],
       "env": {
         "GMAIL_MCP_CREDENTIALS_PATH": "/path/to/your/credentials.json"
       }
@@ -95,7 +111,7 @@ Add to your Claude Code MCP settings:
   "mcpServers": {
     "gmail": {
       "command": "uvx",
-      "args": ["gmail-mcp"],
+      "args": ["--from", "git+https://github.com/fred-drake/gmail-mcp", "gmail-mcp"],
       "env": {
         "GMAIL_MCP_CREDENTIALS_PATH": "/path/to/your/credentials.json",
         "GMAIL_MCP_TOKEN_PATH": "/custom/path/token.json"

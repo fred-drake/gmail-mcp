@@ -119,7 +119,7 @@ def run_setup() -> None:
     print(f"Token will be saved to: {config.token_path}", file=sys.stderr)
 
     try:
-        creds = get_credentials(
+        get_credentials(
             config.credentials_path,
             config.token_path,
             interactive=True,
@@ -137,9 +137,7 @@ def run_setup() -> None:
 
 def main() -> None:
     """Main entry point for the Gmail MCP server."""
-    parser = argparse.ArgumentParser(
-        description="Gmail MCP Server - Access Gmail from MCP clients"
-    )
+    parser = argparse.ArgumentParser(description="Gmail MCP Server - Access Gmail from MCP clients")
     parser.add_argument(
         "--setup",
         action="store_true",

@@ -298,10 +298,7 @@ class GmailClient:
             Dict with message details.
         """
         message = (
-            self.service.users()
-            .messages()
-            .get(userId="me", id=message_id, format="full")
-            .execute()
+            self.service.users().messages().get(userId="me", id=message_id, format="full").execute()
         )
 
         headers = message.get("payload", {}).get("headers", [])
@@ -348,11 +345,7 @@ class GmailClient:
                         "utf-8", errors="replace"
                     )
                     break
-                elif (
-                    mime_type == "text/html"
-                    and not body
-                    and part.get("body", {}).get("data")
-                ):
+                elif mime_type == "text/html" and not body and part.get("body", {}).get("data"):
                     body = base64.urlsafe_b64decode(part["body"]["data"]).decode(
                         "utf-8", errors="replace"
                     )
